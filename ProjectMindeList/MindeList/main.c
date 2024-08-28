@@ -23,15 +23,15 @@ int main(void) {
 	// -----[SYSTEM: GUI]-----
     lcdString(0, 0, "Hello, MindList!");
     
-    _delay_ms(2000);
-    for(int i = 5; i > 0; i--){
+    _delay_ms(1000);
+    for(int i = 3; i > 0; i--){
 	    lcdNumber(1, 15, i);
 	    _delay_ms(1000);
     }
 	lcdClear();
 	lcdString(0, 0, "What do u want?");
 	_delay_ms(2000);
-	for(int i = 5; i > 0; i--){
+	for(int i = 2; i > 0; i--){
 		lcdNumber(1, 15, i);
 		_delay_ms(1000);
 	}
@@ -40,6 +40,7 @@ int main(void) {
 	lcdString(0, 0, ">1.Army");
 	lcdString(0, 9, "2.Medic");
 	lcdString(1, 1, "3.Rescue");
+	lcdString(1, 10, "4.DBG");
 	
     while (1) {
 		
@@ -85,18 +86,28 @@ ISR(INT0_vect){
 			lcdString(0, 1, "1.Army");
 			lcdString(0, 8, ">2.Medic");
 			lcdString(1, 1, "3.Rescue");
+			lcdString(1, 10, "4.DBG");
 		}else if(idxChoose == 1){
 			idxChoose = 2;
 			lcdClear();
 			lcdString(0, 1, "1.Army");
 			lcdString(0, 9, "2.Medic");
 			lcdString(1, 0, ">3.Rescue");
+			lcdString(1, 10, "4.DBG");
 		}else if(idxChoose == 2){
+			idxChoose = 3;
+			lcdClear();
+			lcdString(0, 1, "1.Army");
+			lcdString(0, 9, "2.Medic");
+			lcdString(1, 1, "3.Rescue");
+			lcdString(1, 9, ">4.DBG");
+		}else if(idxChoose == 3){
 			idxChoose = 0;
 			lcdClear();
 			lcdString(0, 0, ">1.Army");
 			lcdString(0, 9, "2.Medic");
 			lcdString(1, 1, "3.Rescue");
+			lcdString(1, 10, "4.DBG");
 		}
 	}
 	
@@ -109,13 +120,13 @@ ISR(INT1_vect){
 		
 		if(strcmp(command, "ModeSelect") == 0){
 			if(idxChoose == 0){
-				isModeSelect = true;
+				
 				Working_Mode_Army();
 			}else if(idxChoose == 1){
-				isModeSelect = true;
+				
 				Working_Mode_Medic();
 			}else if(idxChoose == 2){
-				isModeSelect = true;
+				
 				Working_Mode_Rescue();
 				
 			}
