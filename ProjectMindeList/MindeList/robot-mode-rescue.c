@@ -9,6 +9,6 @@ void Working_Mode_Rescue(void){
 	
 	// Debugging
 	lcdClear();
-	lcdString(0, 0, "This is Rescue Mode");
+	lcdString(0, 0, "Rescue Mode");
 	
 }
