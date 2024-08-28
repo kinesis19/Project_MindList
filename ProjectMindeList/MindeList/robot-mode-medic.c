@@ -2,7 +2,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "robot-mode-army.h"
+#include "robot-mode-medic.h"
 #include "LCD_Text.h"
 
 void Working_Mode_Medic(void){
