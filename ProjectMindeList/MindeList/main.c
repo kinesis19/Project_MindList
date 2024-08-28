@@ -2,14 +2,35 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <string.h>
+#include <stdbool.h>
 #include "LCD_Text.h"
 #include "robot-move.h"
 
 void Initializing(void);
 
+char command[10] = "";
+uint8_t idxChoose = 0; // 0 ~ 255 범위의 자료형을 사용해 보자!
+bool isModeSelect = false;
+
 int main(void) {
 
     Initializing();
+	
+	// -----[SYSTEM: GUI]-----
+    lcdString(0, 0, "Hello, MindList!");
+    
+    _delay_ms(2000);
+    for(int i = 5; i > 0; i--){
+	    lcdNumber(1, 15, i);
+	    _delay_ms(1000);
+    }
+	lcdClear();
+	lcdString(0, 0, "What do u want?");
+	strcpy(command, "ModeSelect");
+	lcdString(0, 0, ">1.Army");
+	lcdString(0, 9, "2.Medic");
+	lcdString(1, 1, "3.Rescue");
 	
     while (1) {
 		
@@ -43,12 +64,49 @@ void Initializing(void){
 
 
 // -----[Switch Interrupt Control]-----
-// -----[Moving: Forward]-----
+// -----[Button: Choose]-----
 ISR(INT0_vect){
-	Moving_Forward();
+	
+	_delay_ms(100); // Switch가 연속으로 눌리는 현상을 방지하기 위함. (debounce)
+	
+	if(strcmp(command, "ModeSelect") == 0){
+		if(idxChoose == 0){
+			idxChoose = 1;
+			lcdClear();
+			lcdString(0, 1, "1.Army");
+			lcdString(0, 8, ">2.Medic");
+			lcdString(1, 1, "3.Rescue");
+		}else if(idxChoose == 1){
+			idxChoose = 2;
+			lcdClear();
+			lcdString(0, 1, "1.Army");
+			lcdString(0, 9, "2.Medic");
+			lcdString(1, 0, ">3.Rescue");
+		}else if(idxChoose == 2){
+			idxChoose = 0;
+			lcdClear();
+			lcdString(0, 0, ">1.Army");
+			lcdString(0, 9, "2.Medic");
+			lcdString(1, 1, "3.Rescue");
+		}
+	}
+	
 }
 
-// -----[Moving: Back]-----
+// -----[Button: Select]-----
 ISR(INT1_vect){
-	Moving_BackWord();
+	
+	if(!isModeSelect){ // Mode Select를 하지 않았을 최초 1회만 작동 됨.
+		
+		if(strcmp(command, "ModeSelect") == 0){
+			if(idxChoose == 0){
+				
+			}else if(idxChoose == 1){
+				
+			}else if(idxChoose == 2){
+				
+			}
+		}
+		
+	}
 }
