@@ -3,13 +3,14 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "LCD_Text.h"
+#include "robot-move.h"
 
 void Initializing(void);
 
 int main(void) {
 
     Initializing();
-    
+    lcdString(0, 0, "Hello, MindList");
     while (1) {
 		
     }   
@@ -41,20 +42,10 @@ void Initializing(void){
 // -----[Switch Interrupt Control]-----
 // -----[Moving: Forward]-----
 ISR(INT0_vect){
-	PORTB = (PORTB & 0xF0) | 0x0A;
-	OCR1A = ICR1 * 0.75;
-	OCR1B = ICR1 * 0.75;
-	
-	lcdClear();
-	lcdString(0, 0, "Moving Foward!");
+	Moving_Forward();
 }
 
 // -----[Moving: Back]-----
 ISR(INT1_vect){
-	PORTB = (PORTB & 0xF0) | 0x05;
-	OCR1A = ICR1 * 0.9;
-	OCR1B = ICR1 * 0.875;
-	
-	lcdClear();
-	lcdString(0, 0, "Moving Back!");
+	Moving_BackWord();
 }
