@@ -119,6 +119,18 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="robot-mode-army.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="robot-mode-army.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="robot-mode-medic.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="robot-mode-medic.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="robot-move.c">
       <SubType>compile</SubType>
     </Compile>
