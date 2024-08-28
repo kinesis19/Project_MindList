@@ -7,8 +7,23 @@
 
 void Working_Mode_Army(void){
 	
+	Mode_Army_Initializing(); // Mode Army Initializing하기.
+	OCR3C = 1800; // 180도 회전하기(수동으로 찾음)
 	// Debugging
 	lcdClear();
-	lcdString(0, 0, "This is Army Mode");
+	lcdString(0, 0, "Army Mode");
+	
+}
+
+void Mode_Army_Initializing(void){
+	DDRE |= (1<<PE5);  // PE5 PIN을 Output Mode로 설정하기 (OC3C PIN)
+	 
+	// Servo Motor 같은 경우에는 10개 넘는 레퍼런스랑 데이터 시트 보면서 공부하고 참고함.
+	// DC 제어랑 비슷한 느낌이 있지만, ADC 제어보다 조금은 어렵게 느껴짐.
+	// Timer/Counter3 설정 (Fast PWM 모드, TOP = ICR3) 
+	TCCR3A = (1<<COM3C1) | (1<<WGM31);  // 비반전 PWM 모드, Fast PWM
+	TCCR3B = (1<<WGM33) | (1<<WGM32) | (1<<CS31);  // Fast PWM 모드, 분주비 8
+
+	ICR3 = 39999;  // PWM 주기: 20ms (16MHz / (8 * (39999 + 1)))
 	
 }
