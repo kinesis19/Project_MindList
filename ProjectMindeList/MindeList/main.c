@@ -6,6 +6,9 @@
 #include <stdbool.h>
 #include "LCD_Text.h"
 #include "robot-move.h"
+#include "robot-mode-army.h"
+#include "robot-mode-medic.h"
+#include "robot-mode-rescue.h"
 
 void Initializing(void);
 
@@ -27,7 +30,13 @@ int main(void) {
     }
 	lcdClear();
 	lcdString(0, 0, "What do u want?");
+	_delay_ms(2000);
+	for(int i = 5; i > 0; i--){
+		lcdNumber(1, 15, i);
+		_delay_ms(1000);
+	}
 	strcpy(command, "ModeSelect");
+	lcdClear();
 	lcdString(0, 0, ">1.Army");
 	lcdString(0, 9, "2.Medic");
 	lcdString(1, 1, "3.Rescue");
@@ -100,10 +109,14 @@ ISR(INT1_vect){
 		
 		if(strcmp(command, "ModeSelect") == 0){
 			if(idxChoose == 0){
-				
+				isModeSelect = true;
+				Working_Mode_Army();
 			}else if(idxChoose == 1){
-				
+				isModeSelect = true;
+				Working_Mode_Medic();
 			}else if(idxChoose == 2){
+				isModeSelect = true;
+				Working_Mode_Rescue();
 				
 			}
 		}
