@@ -9,6 +9,6 @@ void Working_Mode_Medic(void){
 	
 	// Debugging
 	lcdClear();
-	lcdString(0, 0, "This is Medic Mode");
+	lcdString(0, 0, "Medic Mode");
 	
 }
