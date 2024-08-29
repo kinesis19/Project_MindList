@@ -9,6 +9,7 @@
 #include "robot-mode-army.h"
 #include "robot-mode-medic.h"
 #include "robot-mode-rescue.h"
+#include "Debugging.h"
 
 void Initializing(void);
 
@@ -26,14 +27,14 @@ int main(void) {
     _delay_ms(1000);
     for(int i = 3; i > 0; i--){
 	    lcdNumber(1, 15, i);
-	    _delay_ms(1000);
+	    _delay_ms(500);
     }
 	lcdClear();
 	lcdString(0, 0, "What do u want?");
 	_delay_ms(2000);
 	for(int i = 2; i > 0; i--){
 		lcdNumber(1, 15, i);
-		_delay_ms(1000);
+		_delay_ms(500);
 	}
 	strcpy(command, "ModeSelect");
 	lcdClear();
@@ -128,6 +129,10 @@ ISR(INT1_vect){
 			}else if(idxChoose == 2){
 				
 				Working_Mode_Rescue();
+				
+			}else if(idxChoose == 3){
+				
+				Working_Mode_Debugging();
 				
 			}
 		}

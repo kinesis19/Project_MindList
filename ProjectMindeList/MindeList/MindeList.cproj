@@ -110,6 +110,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Debugging.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Debugging.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="LCD_Text.c">
       <SubType>compile</SubType>
     </Compile>
