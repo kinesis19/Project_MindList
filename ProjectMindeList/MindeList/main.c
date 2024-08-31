@@ -12,6 +12,11 @@
 #include "Debugging.h"
 
 void Initializing(void);
+void USART1_Init(unsigned int ubrr);
+unsigned char USART1_Receive(void);
+void FunctionA(void);
+void FunctionB(void);
+
 
 char command[10] = "";
 uint8_t idxChoose = 0; // 0 ~ 255 범위의 자료형을 사용해 보자!
@@ -43,9 +48,54 @@ int main(void) {
 	lcdString(1, 1, "3.Rescue");
 	lcdString(1, 10, "4.DBG");
 	
-    while (1) {
+	DDRG |= (1 << PG0) | (1 << PG1);  // PG0, PG1을 출력 모드로 설정
+	
+	USART1_Init(103);  // 9600 baud rate 초기화
+	
+	while (1) {
+		unsigned char command = USART1_Receive();  // 블루투스 명령 수신
 		
-    }   
+		if (command == 'A') {
+			Moving_Forward();
+		}else if (command == 'B') {
+			Moving_BackWord();
+		}else if (command == 'C') {
+			Moving_Left();  // 버튼 B에 대한 함수 호출
+		}else if (command == 'D') {
+			Moving_Left();  // 버튼 B에 대한 함수 호출
+		}else if (command == 'S') {
+			Moving_Stop();
+		}
+	}
+	   
+}
+
+
+void USART1_Init(unsigned int ubrr) {
+	UBRR1H = (unsigned char)(ubrr >> 8);
+	UBRR1L = (unsigned char)ubrr;
+	UCSR1B = (1 << RXEN1) | (1 << TXEN1);
+	UCSR1C = (1 << UCSZ11) | (1 << UCSZ10);
+}
+
+unsigned char USART1_Receive(void) {
+	while (!(UCSR1A & (1 << RXC1)));
+	return UDR1;
+}
+
+void FunctionA(void) {
+	
+	Moving_Forward();
+	PORTG |= (1 << PG0);  // 부저 켬
+	_delay_ms(500);
+	PORTG &= ~(1 << PG0);  // 부저 끔
+}
+
+void FunctionB(void) {
+	Moving_BackWord();
+	PORTG |= (1 << PG1);  // 다른 출력을 켬
+	_delay_ms(500);
+	PORTG &= ~(1 << PG1);  // 다른 출력을 끔
 }
 
 // Timer/Counter1의 초기화

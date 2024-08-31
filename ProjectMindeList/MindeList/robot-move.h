@@ -3,6 +3,9 @@
 
 void Moving_Forward(void);
 void Moving_BackWord(void);
+void Moving_Stop(void);
+void Moving_Left(void);
+void Moving_Right(void);
 
 
 
